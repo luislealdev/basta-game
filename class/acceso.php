@@ -37,13 +37,14 @@ class Acceso extends BaseDeDatos
             // Obtenemos el correo y lo guardamos en una variable
             $correo = $_POST['mail'];
             // Obtenemos la contraseña y la guardamos en una variable
+            // Encriptamos contraseña para evitar inyección de código SQL
             $pass = $_POST['password'];
             // Conectamos a la base de datos
             // El uso de la base de datos está dividido en tres pasos
             // Paso 1: Abrir la conexión
             // Paso 2: Procesar la consulta
             // 2.1 Realizar la consulta
-            $query = "select * from usuario where email = '$correo' and clave = '$pass';";
+            $query = "select * from usuario where email = '$correo' and clave = password('$pass');";
             $registro = $this->getRecord($query);
             // 2.2 Procesar el resultado
             if ($this->num_registros == 1) {
