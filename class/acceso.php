@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include 'baseDeDatos.php';
 class Acceso extends BaseDeDatos
 {
@@ -42,12 +44,16 @@ class Acceso extends BaseDeDatos
             // Paso 2: Procesar la consulta
             // 2.1 Realizar la consulta
             $query = "select * from usuario where email = '$correo' and clave = '$pass';";
-            $this->query($query);
+            $registro = $this->getRecord($query);
             // 2.2 Procesar el resultado
-            if ($this->num_registros == 1)
+            if ($this->num_registros == 1) {
                 // Si es un usuario registrado
+                $_SESSION['correo'] = $correo;
+                $_SESSION['nombre'] = $registro->nombre + " " + $registro->apellidos;
+                $_SESSION['id'] = $registro->id;
+                $_SESSION['foto'] = $registro->foto;
                 header('location: ../home.php');
-            else
+            } else
                 // Error en las credenciales reenviar localidad del usuario
                 header('location: ../index.php?e=1');
         } else {
