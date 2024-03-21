@@ -49,8 +49,8 @@ class Acceso extends BaseDeDatos
             if ($this->num_registros == 1) {
                 // Si es un usuario registrado
                 $_SESSION['correo'] = $correo;
-                $_SESSION['nombre'] = $registro->nombre + " " + $registro->apellidos;
-                $_SESSION['id'] = $registro->id;
+                $_SESSION['nombre'] = $registro->nombre . ' ' . $registro->apellidos;
+                $_SESSION['id'] = $registro->id_usuario;
                 $_SESSION['foto'] = $registro->foto;
                 header('location: ../home.php');
             } else

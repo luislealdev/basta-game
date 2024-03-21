@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION["Nombre"])) header('location: index.php?m=5');
+if (!isset($_SESSION["nombre"])) header('location: index.php?m=5');
 ?>
 
 <!-- 
@@ -22,7 +22,7 @@ MENSAJES DE ERROR
 </head>
 
 <body>
-    <p>Bienvenido <?= $_SESSION["Nombre"]; ?></p>
+    <p>Bienvenido <span> <?php echo $_SESSION["nombre"]; ?></span></p>
     <h1>Inicio</h1>
     <p>Las sesiones son un mecanismo para almacenar datos en el servidor,
         son hermanas de las cookies. La diferencia radica en que las sesiones tienen un tiempo de vida.</p>

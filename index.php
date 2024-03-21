@@ -1,5 +1,7 @@
 <?php
 session_start();
+// if (isset($_SESSION["Nombre"])) header('location: home.php');
+session_destroy();
 ?>
 <!DOCTYPE html>
 <html lang="en">
