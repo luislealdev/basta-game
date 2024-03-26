@@ -1,6 +1,7 @@
 <?php
 session_start();
-if (!isset($_SESSION["nombre"])) header('location: index.php?m=5');
+if (!isset($_SESSION["nombre"])) header('location: ../auth/login.php');
+if ($_SESSION["role"] == 'admin') header('location: ../admin/home.php');
 ?>
 
 <!-- 
