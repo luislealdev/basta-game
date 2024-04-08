@@ -1,8 +1,5 @@
 <?php
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 include 'baseDeDatos.php';
 class Acceso extends BaseDeDatos
@@ -82,7 +79,8 @@ class Acceso extends BaseDeDatos
         for ($i = 0; $i < 8; $i++)
             $nuevPWD .= $cadena[rand() % $numeC];
 
-        $cad = "insert into usuario set nombre='" . $_POST['nombre'] . "', apellidos='" . $_POST['apellidos'] . "', email='" . $_POST['correo'] . "', clave=password('" . $nuevPWD . "'), fechaUltiAcceso=n" . date('Y-m-d') . ", tipo_usuario=2";
+        // $cad = "insert into usuario set nombre='" . $_POST['nombre'] . "', apellidos='" . $_POST['apellidos'] . "', email='" . $_POST['correo'] . "', clave=password('" . $nuevPWD . "'), fechaUltiAcceso=n" . date('Y-m-d') . ", tipo_usuario=2";
+        $cad = "insert into usuario(nombre, apellidos, email, clave, fechaUltiAcceso, tipo_usuario) values('" . $_POST['nombre'] . "', '" . $_POST['apellidos'] . "', '" . $_POST['correo'] . "', password('" . $nuevPWD . "'), '" . date('Y-m-d') . "', 2);";
 
         include("../resources/class.phpmailer.php");
         include("../resources/class.smtp.php");
@@ -98,7 +96,8 @@ class Acceso extends BaseDeDatos
         $mail->SMTPAuth = true;   //enable SMTP authentication
 
         $mail->Username =   "21030076@itcelaya.edu.mx"; // SMTP account username
-        // Get gmail password for app not secure
+
+        // TODO: Get gmail password for app not secure
         $mail->Password = "";  // SMTP account password
 
         $mail->From = "";
@@ -111,7 +110,7 @@ class Acceso extends BaseDeDatos
             echo  "Error: " . $mail->ErrorInfo;
         else {
             $this->query($cad);
-            header("location: index.php?e=7");
+            header("location: ../game/home.php?e=7");
         }
     }
 }
