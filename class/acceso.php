@@ -14,8 +14,8 @@ class Acceso extends BaseDeDatos
             case 'login':
                 $result = $this->login();
 
-            case 'formRecord':
-                break;
+            case 'register':
+                $result = $this->register();
 
             case 'record':
                 break;
@@ -31,7 +31,7 @@ class Acceso extends BaseDeDatos
 
         return $result;
     }
-    // TODO: ADD SESSION FOR ADMIN AND NORMAL USER
+
     function login()
     {
         if (isset($_POST['mail']) && isset($_POST['password'])) {
@@ -67,6 +67,48 @@ class Acceso extends BaseDeDatos
         } else {
             header('location: ../index.php?e=2');
         };
+    }
+
+    function register()
+    {
+        $cadena = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789123456789";
+        $numeC = strlen($cadena);
+        $nuevPWD = "";
+
+        // Generate random password
+        for ($i = 0; $i < 8; $i++)
+            $nuevPWD .= $cadena[rand() % $numeC];
+
+        $cad = "insert into usuario set nombre='" . $_POST['nombre'] . "', apellidos='" . $_POST['apellidos'] . "', email='" . $_POST['correo'] . "', clave=password('" . $nuevPWD . "'), fechaUltiAcceso=n" . date('Y-m-d') . ", tipo_usuario=2";
+
+        include("../class.phpmailer.php");
+        include("../class.smtp.php");
+
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->Host = "smtp.gmail.com"; //mail.google
+        $mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for GMail
+        $mail->Port = 465;     // set the SMTP port for the GMAIL server
+        $mail->SMTPDebug  = 1;  // enables SMTP debug information (for testing)
+        // 1 = errors and messages
+        // 2 = messages only
+        $mail->SMTPAuth = true;   //enable SMTP authentication
+
+        $mail->Username =   "21030076@itcelaya.edu.mx"; // SMTP account username
+        $mail->Password = "cosita";  // SMTP account password
+
+        $mail->From = "";
+        $mail->FromName = "";
+        $mail->Subject = "Registro completo";
+        $mail->MsgHTML("<h1>BIENVENIDO " . $_POST['nombre'] . " " . $_POST['apellidos'] . "</h1><h2> tu clave de acceso es : " . $nuevPWD . "</h2>");
+        $mail->AddAddress($_POST['Correo']);
+        //$mail->AddAddress("admin@admin.com");
+        if (!$mail->Send())
+            echo  "Error: " . $mail->ErrorInfo;
+        else {
+            $this -> query($cad);
+            header("location: index.php?e=7");
+        }
     }
 }
 

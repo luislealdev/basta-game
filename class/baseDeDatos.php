@@ -31,7 +31,7 @@ class BaseDeDatos
     {
         $this->open();
         $this->bloq_registros = mysqli_query($this->conexion, $query);
-        $this->num_registros = mysqli_num_rows($this->bloq_registros);
+        if (strpos(strtoupper($query), 'SELECT') === 0) $this->num_registros = mysqli_num_rows($this->bloq_registros);
         $this->close();
     }
 
@@ -42,6 +42,7 @@ class BaseDeDatos
         $this->num_registros = mysqli_num_rows($this->bloq_registros);
         $this->close();
 
+        
         return mysqli_fetch_object($this->bloq_registros);
     }
 }
