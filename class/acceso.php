@@ -1,5 +1,8 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 include 'baseDeDatos.php';
 class Acceso extends BaseDeDatos
@@ -81,8 +84,8 @@ class Acceso extends BaseDeDatos
 
         $cad = "insert into usuario set nombre='" . $_POST['nombre'] . "', apellidos='" . $_POST['apellidos'] . "', email='" . $_POST['correo'] . "', clave=password('" . $nuevPWD . "'), fechaUltiAcceso=n" . date('Y-m-d') . ", tipo_usuario=2";
 
-        include("../class.phpmailer.php");
-        include("../class.smtp.php");
+        include("../resources/class.phpmailer.php");
+        include("../resources/class.smtp.php");
 
         $mail = new PHPMailer();
         $mail->IsSMTP();
@@ -95,18 +98,19 @@ class Acceso extends BaseDeDatos
         $mail->SMTPAuth = true;   //enable SMTP authentication
 
         $mail->Username =   "21030076@itcelaya.edu.mx"; // SMTP account username
-        $mail->Password = "cosita";  // SMTP account password
+        // Get gmail password for app not secure
+        $mail->Password = "";  // SMTP account password
 
         $mail->From = "";
         $mail->FromName = "";
         $mail->Subject = "Registro completo";
         $mail->MsgHTML("<h1>BIENVENIDO " . $_POST['nombre'] . " " . $_POST['apellidos'] . "</h1><h2> tu clave de acceso es : " . $nuevPWD . "</h2>");
-        $mail->AddAddress($_POST['Correo']);
+        $mail->AddAddress($_POST['correo']);
         //$mail->AddAddress("admin@admin.com");
         if (!$mail->Send())
             echo  "Error: " . $mail->ErrorInfo;
         else {
-            $this -> query($cad);
+            $this->query($cad);
             header("location: index.php?e=7");
         }
     }
