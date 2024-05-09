@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --primary-color: #db4f00;
+}
+
+.primary-color {
+    color: var(--primary-color);
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.border-primary {
+    border-color: var(--primary-color);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat';
+    white-space: initial !important;
+}
+
+main {
+    width: 100vw;
+    height: 100vh;
+}
+
+h1 {
+    font-family: "Bungee Spice", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+p {
+    font-family: "Montserrat", sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    font-family: "Montserrat", sans-serif;
+}
+
+table.customTable {
+    width: 100%;
+    background-color: #FFFFFF;
+    border-collapse: collapse;
+    border-width: 2px;
+    border-color: var(--primary-color);
+    border-style: solid;
+    color: #000000;
+}
+
+table.customTable td,
+table.customTable th {
+    border-width: 2px;
+    border-color: var(--primary-color);
+    border-style: solid;
+    padding: 5px;
+}
+
+table.customTable thead {
+    background-color: var(--primary-color);
+}
+
+
+.hover-underline:hover {
+    text-decoration: underline black !important;
+}
+
+.bg-notebook {
+    background-image: url('https://img.freepik.com/premium-photo/notebook-paper-background-paper-lines_322958-718.jpg');
+}

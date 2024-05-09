@@ -1,39 +1,34 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
 
 include 'baseDeDatos.php';
+include 'captcha.php';
 class Acceso extends BaseDeDatos
 {
     function action($cual)
     {
-        $result = '';
+        // $result = '';
         switch ($cual) {
-            case 'formLogin':
-                break;
-
             case 'login':
-                $result = $this->login();
+                $this->login();
 
             case 'register':
-                $result = $this->register();
+                $this->register();
 
-            case 'record':
-                break;
-
-            case 'formPwd':
-                break;
-
-            case 'retrievePwd':
-                break;
-
+            case 'recoverPwd':
+                $this->recoverPwd();
             default:
         }
-
-        return $result;
     }
 
     function login()
     {
+        if (!is_numeric($_POST['captcha']) || $_POST['captcha'] != $_SESSION['cap_login'])
+            header('location: ../app/auth/login.php?e=3');
+
         if (isset($_POST['mail']) && isset($_POST['password'])) {
             // Obtenemos el correo y lo guardamos en una variable
             $correo = $_POST['mail'];
@@ -60,12 +55,12 @@ class Acceso extends BaseDeDatos
                 if ($registro->role == 'admin')
                     header('location: ../app/admin/home.php');
                 else
-                    header('location: ../app/game/home.php');
+                    header('location: ../app/game/');
             } else
                 // Error en las credenciales reenviar localidad del usuario
-                header('location: ../index.php?e=1');
+                header('location: ../app/auth/index.php?e=1');
         } else {
-            header('location: ../index.php?e=2');
+            header('location: ../app/auth/index.php?e=1');
         };
     }
 
@@ -80,7 +75,7 @@ class Acceso extends BaseDeDatos
             $nuevPWD .= $cadena[rand() % $numeC];
 
         // $cad = "insert into usuario set nombre='" . $_POST['nombre'] . "', apellidos='" . $_POST['apellidos'] . "', email='" . $_POST['correo'] . "', clave=password('" . $nuevPWD . "'), fechaUltiAcceso=n" . date('Y-m-d') . ", tipo_usuario=2";
-        $cad = "insert into usuario(nombre, apellidos, email, clave, fechaUltiAcceso, tipo_usuario) values('" . $_POST['nombre'] . "', '" . $_POST['apellidos'] . "', '" . $_POST['correo'] . "', password('" . $nuevPWD . "'), '" . date('Y-m-d') . "', 2);";
+        $cad = "insert into usuario(nombre, apellidos, email, clave, fechaUltiAcceso) values('" . $_POST['nombre'] . "', '" . $_POST['apellidos'] . "', '" . $_POST['mail'] . "', password('" . $nuevPWD . "'), '" . date('Y-m-d') . "')";
 
         include("../resources/class.phpmailer.php");
         include("../resources/class.smtp.php");
@@ -100,17 +95,67 @@ class Acceso extends BaseDeDatos
         // TODO: Get gmail password for app not secure
         $mail->Password = "";  // SMTP account password
 
-        $mail->From = "";
-        $mail->FromName = "";
+        $mail->From = "BASTA GAME";
+        $mail->FromName = "Basta Juego";
         $mail->Subject = "Registro completo";
         $mail->MsgHTML("<h1>BIENVENIDO " . $_POST['nombre'] . " " . $_POST['apellidos'] . "</h1><h2> tu clave de acceso es : " . $nuevPWD . "</h2>");
-        $mail->AddAddress($_POST['correo']);
+        $mail->AddAddress($_POST['mail']);
         //$mail->AddAddress("admin@admin.com");
         if (!$mail->Send())
             echo  "Error: " . $mail->ErrorInfo;
         else {
             $this->query($cad);
-            header("location: ../game/home.php?e=7");
+            header("location: ../app/auth/email-sended.php?e=7");
+        }
+    }
+
+    function recoverPwd()
+    {
+
+        if (!is_numeric($_POST['captcha']) || $_POST['captcha'] != $_SESSION['cap_login'])
+            header('location: ../app/auth/recover-password.php?e=3');
+
+        $cadena = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789123456789";
+        $numeC = strlen($cadena);
+        $nuevPWD = "";
+
+
+        // Generate random password
+        for ($i = 0; $i < 8; $i++)
+            $nuevPWD .= $cadena[rand() % $numeC];
+
+        $cad = "update usuario set clave = '" . $nuevPWD . "' where email = '" . $_POST['mail'] . "';";
+
+        include("../resources/class.phpmailer.php");
+        include("../resources/class.smtp.php");
+
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->Host = "smtp.gmail.com"; //mail.google
+        $mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for GMail
+        $mail->Port = 465;     // set the SMTP port for the GMAIL server
+        $mail->SMTPDebug  = 1;  // enables SMTP debug information (for testing)
+        // 1 = errors and messages
+        // 2 = messages only
+        $mail->SMTPAuth = true;   //enable SMTP authentication
+
+        $mail->Username =   "21030076@itcelaya.edu.mx"; // SMTP account username
+
+        // TODO: Get gmail password for app not secure
+        $mail->Password = "";  // SMTP account password
+
+        $mail->From = "BASTA GAME";
+        $mail->FromName = "Basta Juego";
+        $mail->Subject = "Recuperación de contraseña";
+        $mail->MsgHTML("<h1> RECUPERACIÓN DE CONTRASEÑA </h1><h2> Tu clave de acceso es : " . $nuevPWD . "</h2>");
+
+        $mail->AddAddress($_POST['mail']);
+        //$mail->AddAddress("admin@admin.com");
+        if (!$mail->Send())
+            echo  "Error: " . $mail->ErrorInfo;
+        else {
+            $this->query($cad);
+            header("location: ../app/auth/email-sended.php?e=7");
         }
     }
 }

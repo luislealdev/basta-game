@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      tr {
+        background-color: #f2f2f2; /* Color de fondo de la fila */
+      }
+      td {
+        padding: 8px; /* Espaciado interno de la celda */
+        border: 1px solid #ddd; /* Borde de la celda */
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9; /* Color de fondo de las filas pares */
+      }
+      th {
+        background-color: #4caf50; /* Color de fondo del encabezado */
+        color: white; /* Color del texto del encabezado */
+        padding: 8px; /* Espaciado interno del encabezado */
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+      function revisa() {
+        $.ajax({
+          url: "http://172.20.105.1/pw2024_1/pruebaAJAX.php",
+          type: "post",
+          data: { accion: "revisa" },
+          success: function (result) {
+            // console.log(result);
+            // mensaje.innerHTML = result;
+
+            //            JSON
+            obj = JSON.parse(result);
+            console.log(obj);
+            // cad = "";
+            // for (i = 0; i < obj.length; i++) {
+            //   cad += "<h6>" + obj[i].Comentario + "</h6>";
+            // }
+            // mensaje.innerHTML = cad;
+
+            // Maquetar fecha, hora, ip, comentario
+            cad = "<table>";
+            for (i = 0; i < obj.length; i++) {
+              cad += "<tr>";
+              cad += "<td>" + obj[i].Registro.split(" ")[0] + "</td>";
+              cad += "<td>" + obj[i].Registro.split(" ")[1] + "</td>";
+              cad += "<td>" + obj[i].Ip + "</td>";
+              cad += "<td>" + obj[i].Comentario + "</td>";
+              cad += "</tr>";
+            }
+            cad += "</table>";
+            mensaje.innerHTML = cad;
+          },
+          beforeSend: function () {
+            mensaje.innerHTML = "Cargando...";
+          },
+        });
+      }
+      function registra() {
+        // ajax lanzaremos al registro de mi mensaje
+        $.ajax({
+          url: "http://172.20.105.1/pw2024_1/pruebaAJAX.php",
+          type: "post",
+          data: { accion: "registra", comentario: comentario.value },
+          success: function () {
+            alert("Ya quedó");
+          },
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <textarea id="comentario"> </textarea>
+    <input type="button" onclick="registra()" value="Registrar" />
+    <div id="mensaje"></div>
+
+    <script>
+      //   hilc = setInterval(revisa, 3000);
+      setInterval(revisa, 3000);
+    </script>
+  </body>
+</html>

@@ -42,8 +42,18 @@ class BaseDeDatos
         $this->num_registros = mysqli_num_rows($this->bloq_registros);
         $this->close();
 
-        
+
         return mysqli_fetch_object($this->bloq_registros);
+    }
+
+    function campos($campos)
+    {
+        for ($campoN = 0; $campoN < mysqli_num_fields($this->bloq_registros); $campoN++) {
+            $campo = mysqli_fetch_field_direct($this->bloq_registros, $campoN);
+            $tabla = $campo->table;
+            array_push($campos, $campo->name);
+        }
+        return $tabla;
     }
 }
 
