@@ -7,11 +7,14 @@ session_start();
 // if (!$_SESSION["role"] == 'admin') header('location: ../auth?error=401');
 
 include '../../components/navbar.php';
-include "../../class/usuarios.php";
 ?>
+<script src="../../utils/usuario.js"></script>
+<div class="container" id="workArea">
+    <?php include "../../class/usuario.php"; ?>
+</div>
 
 </body>
-    
+
 </html>
 
 <script>
