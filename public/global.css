@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
+
 :root {
     --primary-color: #db4f00;
 }
@@ -83,4 +84,10 @@ table.customTable thead {
 
 .bg-notebook {
     background-image: url('https://img.freepik.com/premium-photo/notebook-paper-background-paper-lines_322958-718.jpg');
+}
+
+.jconfirm-cell {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
 }

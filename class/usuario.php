@@ -14,89 +14,88 @@ class Usuario extends BaseDeDatos
         $result = "";
         switch ($cual) {
             case 'formEdit':
-                $registro = $this->getRecord("SELECT * from usuario where id_usuario = " . $_POST['id_usuario']);
+                $registro = $this->getRecord("SELECT * from usuario where id_usuario = " . $_REQUEST['id_usuario']);
             case 'formNew':
-                // $result .= "<div class='container-fluid d-flex align-items-center justify-content-center my-4'>
-                // <form method='post' onsubmit='return usuarios(\'insert\')' class='col-md-4 border border-dark border-3 p-3 mx-auto bg-info'>" .
-                //     (isset($registro) ? "<input type='hidden' name='id_usuario' value= '" . $_POST['id_usuario'] . "'>" : "")
-                //     . '<h1 class="text-dark">' . (isset($registro) ? "Actualizar" : "Agregar") . ' usuario</h1>';
-                // $result .= '
-                //     <div class="col-6 my-3">
-                //     <label for="email" class="form-label">Email</label>
-                //     <div class="input-group">
-                //         <input type="email" required id="email" class="form-control border-dark bg-custom" name="email"
-                //         value="' . (isset($registro) ? $registro->email : "") . '">
-                //     </div>
-                //     </div>
+                $result .= "<div class='container-fluid d-flex align-items-center justify-content-center my-4'>
+                <form method='post' onsubmit='return usuarios(\'insert\')' class='col-md-4 border border-dark border-3 p-3 mx-auto bg-info'>" .
+                    (isset($registro) ? "<input type='hidden' name='id_usuario' value= '" . $_POST['id_usuario'] . "'>" : "")
+                    . '<h1 class="text-dark">' . (isset($registro) ? "Actualizar" : "Agregar") . ' usuario</h1>';
+                $result .= '
+                    <div class="col-6 my-3">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-group">
+                        <input type="email" required id="email" class="form-control border-dark bg-custom" name="email"
+                        value="' . (isset($registro) ? $registro->email : "") . '">
+                    </div>
+                    </div>
 
 
-                //     <div class="col-6 my-3">
-                //     <label for="nombre" class="form-label">Nombre</label>
-                //     <div class="input-group">
-                //         <input type="text" required id="nombre" class="form-control border-dark bg-custom" name="nombre"
-                //         value="' . (isset($registro) ? $registro->nombre : "") . '">
-                //     </div>
-                //     </div>
+                    <div class="col-6 my-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <div class="input-group">
+                        <input type="text" required id="nombre" class="form-control border-dark bg-custom" name="nombre"
+                        value="' . (isset($registro) ? $registro->nombre : "") . '">
+                    </div>
+                    </div>
 
-                //     <div class="col-6 my-3">
-                //     <label for="apellidos" class="form-label">Apellidos</label>
-                //     <div class="input-group">
-                //         <input type="text" required id="apellidos" class="form-control border-dark bg-custom" name="apellidos"
-                //         value="' . (isset($registro) ? $registro->apellidos : "") . '">
-                //     </div>
-                //     </div>
+                    <div class="col-6 my-3">
+                    <label for="apellidos" class="form-label">Apellidos</label>
+                    <div class="input-group">
+                        <input type="text" required id="apellidos" class="form-control border-dark bg-custom" name="apellidos"
+                        value="' . (isset($registro) ? $registro->apellidos : "") . '">
+                    </div>
+                    </div>
 
-                //     <div class="col-12 my-3">
-                //     <label for="clave" class="form-label">Clave</label>
-                //     <div class="input-group">
-                //         <input type="text" required id="clave" class="form-control border-dark bg-custom" name="clave" placeholder="la contraseña se cifrará">
-                //     </div>
-                //     </div>
+                    <div class="col-12 my-3">
+                    <label for="clave" class="form-label">Clave</label>
+                    <div class="input-group">
+                        <input type="text" required id="clave" class="form-control border-dark bg-custom" name="clave" placeholder="la contraseña se cifrará">
+                    </div>
+                    </div>
 
-                //     <div class="col-12 my-3">
-                //     <label for="clave2" class="form-label">Re-Type Clave</label>
-                //     <div class="input-group">
-                //         <input type="text" required id="clave2" class="form-control border-dark bg-custom" name="clave2" placeholder="la contraseña se cifrará">
-                //     </div>
-                //     </div>
-
-
-                //     <div class="col-6 my-3">
-                //     <label for="genero" class="form-label">Genero</label>
-                //     <div class="input-group">
-
-                //         <select id="genero" name="genero" class="form-select border-dark bg-custom">
-                //             <option ' . (isset($registro) && $registro->genero == 'M' ? "selected" : "") . ' >Masculino</option>
-                //             <option ' . (isset($registro) && $registro->genero == 'F' ? "selected" : "") . ' >Fenemino</option>
-                //         </select>
-
-                //     </div>
-                //     </div>
-
-                //     <div class="col-6 my-3">
-                //     <label for="id_tipo_usuario" class="form-label">Tipo de usuario</label>
-                //     <div class="input-group">
-
-                //         <select id="id_tipo_usuario" name="id_tipo_usuario" class="form-select border-dark bg-custom">
-                //             <option ' . (isset($registro) && $registro->id_tipo_usuario == '1' ? "selected" : "") . ' value="1">Normal</option>
-                //             <option ' . (isset($registro) && $registro->id_tipo_usuario == '2' ? "selected" : "") . ' value="2">Admin</option>
-                //         </select>
-
-                //     </div>
-                //     </div>
-                //     ';
+                    <div class="col-12 my-3">
+                    <label for="clave2" class="form-label">Re-Type Clave</label>
+                    <div class="input-group">
+                        <input type="text" required id="clave2" class="form-control border-dark bg-custom" name="clave2" placeholder="la contraseña se cifrará">
+                    </div>
+                    </div>
 
 
-                // $result .= '<div class="col-12 mb-1">
-                //         <input type="hidden" name="action" value="' . (isset($registro) ? "update" : "insert") . '">
-                //         <input type="submit" onclick="return usuarioss(\'valiForm\')" class="btn btn-dark text-white" value="' . (isset($registro) ? "Actualizar" : "Registrar") . '">
-                //         <span id="mensaje" class="badge bg-danger"></span>
-                //     </div>';
+                    <div class="col-6 my-3">
+                    <label for="genero" class="form-label">Genero</label>
+                    <div class="input-group">
+
+                        <select id="genero" name="genero" class="form-select border-dark bg-custom">
+                            <option ' . (isset($registro) && $registro->genero == 'M' ? "selected" : "") . ' >Masculino</option>
+                            <option ' . (isset($registro) && $registro->genero == 'F' ? "selected" : "") . ' >Fenemino</option>
+                        </select>
+
+                    </div>
+                    </div>
+
+                    <div class="col-6 my-3">
+                    <label for="id_tipo_usuario" class="form-label">Tipo de usuario</label>
+                    <div class="input-group">
+
+                        <select id="id_tipo_usuario" name="id_tipo_usuario" class="form-select border-dark bg-custom">
+                            <option ' . (isset($registro) && $registro->id_tipo_usuario == '1' ? "selected" : "") . ' value="1">Normal</option>
+                            <option ' . (isset($registro) && $registro->id_tipo_usuario == '2' ? "selected" : "") . ' value="2">Admin</option>
+                        </select>
+
+                    </div>
+                    </div>
+                    ';
 
 
-                // $result .= '</form></div>';
+                $result .= '<div class="col-12 mb-1">
+                        <input type="hidden" name="action" value="' . (isset($registro) ? "update" : "insert") . '">
+                        <input type="submit" onclick="return usuarioss(\'valiForm\')" class="btn btn-dark text-white" value="' . (isset($registro) ? "Actualizar" : "Registrar") . '">
+                        <span id="mensaje" class="badge bg-danger"></span>
+                    </div>';
 
-                $result = "Hola";
+
+                $result .= '</form></div>';
+
                 break;
             case 'insert':
                 $this->query("INSERT into usuario set email = '" . $_POST['email'] . "', 
@@ -163,19 +162,31 @@ class Usuario extends BaseDeDatos
             $datos .= "<tr>";
 
             $datos .= "<td class='col-1'>
-            <form method='post' onsubmit=\"return confirm('¿Estás seguro de borrar el registro: " . $row['email'] . "?')\">
-                <button class='btn btn-sm btn-danger'>
-                    <i class='bi bi-trash'></i>
-                </button>
-                <input type='hidden' name='action' value='delete'>
-                <input type='hidden' name='id_usuario' value='" . $row['id_usuario'] . "'>
-            </form>
-           </td>";
+            <button class='btn btn-sm btn-danger' onclick=\"usuario('delete', {$row['id_usuario']})\">
+            <i class='fa-regular fa-trash-can'></i>
+            </button>
+       </td>";
 
 
-            $datos .= "<td class='col-1'><form method = 'post'><button class='btn btn-sm btn-warning'><i class='bi bi-pencil'></i></button>
-            <input type='hidden' name='action' value='formEdit'>
-            <input type='hidden' name='id_usuario' value='" . $row['id_usuario'] . "'></form></td>";
+            //     $datos .= "<td class='col-1'>
+            //     <form method='post' onsubmit=\"return confirm('¿Estás seguro de borrar el registro: " . $row['email'] . "?')\">
+            //         <button class='btn btn-sm btn-danger'>
+            //             <i class='bi bi-trash'></i>
+            //         </button>
+            //         <input type='hidden' name='action' value='delete'>
+            //         <input type='hidden' name='id_usuario' value='" . $row['id_usuario'] . "'>
+            //     </form>
+            //    </td>";
+
+
+            $datos .= "<td class='col-1'>
+            <button class='btn btn-sm btn-warning' onclick=\"usuario('formEdit', '{$row['id_usuario']}')\"><i class='fa-solid fa-pencil'></i></button>
+          </td>";
+
+
+            // $datos .= "<td class='col-1'><form method = 'post'><button class='btn btn-sm btn-warning'><i class='bi bi-pencil'></i></button>
+            // <input type='hidden' name='action' value='formEdit'>
+            // <input type='hidden' name='id_usuario' value='" . $row['id_usuario'] . "'></form></td>";
             foreach ($row as $dato)
                 $datos .= "<td>$dato</td>";
             $datos .= "</tr>";
